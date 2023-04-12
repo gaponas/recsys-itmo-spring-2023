@@ -9,7 +9,7 @@
   "REDIS_RECOMMENDATIONS_PORT": 6379,
   "REDIS_RECOMMENDATIONS_DB": 3,
   "TRACKS_CATALOG": "./data/tracks_with_recs.json",
-  "TOP_TRACKS_CATALOG": "./data/top_tracks.json",
+  "TOP_TRACKS_CATALOG": "./data/top_tracks_new.json",
   "RECOMMENDATIONS_FILE_PATH": "./data/recommendations_new.json",
   "DATA_LOG_FILE": "./log/data.json",
   "DATA_LOG_FILE_MAX_BYTES": 104857600,

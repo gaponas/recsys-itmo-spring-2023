@@ -12,7 +12,8 @@ from gevent.pywsgi import WSGIServer
 from botify.data import DataLogger, Datum
 from botify.experiment import Experiments, Treatment
 from botify.recommenders.contextual import Contextual
-from botify.recommenders.indexed_with_contextual import IndexedAndContextual
+from botify.recommenders.contextual_with_indexed import ContextualIndexed
+
 from botify.track import Catalog
 
 root = logging.getLogger()
@@ -34,6 +35,7 @@ catalog = Catalog(app).load(
 catalog.upload_tracks(tracks_redis.connection)
 catalog.upload_artists(artists_redis.connection)
 catalog.upload_recommendations(recommendations_redis.connection)
+
 
 parser = reqparse.RequestParser()
 parser.add_argument("track", type=int, location="json", required=True)
@@ -65,7 +67,8 @@ class NextTrack(Resource):
 
         treatment = Experiments.INDEXED_WITH_CONTEXTUAL.assign(user)
         if treatment == Treatment.T1:
-            recommender = IndexedAndContextual(tracks_redis.connection, recommendations_redis.connection, catalog)
+            recommender = ContextualIndexed(tracks_redis.connection, recommendations_redis.connection,
+                                         catalog.top_tracks[:100], catalog)
         else:
             recommender = Contextual(tracks_redis.connection, catalog)
 
